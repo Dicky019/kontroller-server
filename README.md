@@ -1,6 +1,6 @@
 # kontroller-server
 
 # Run 
-```
-$npm start
+```sh
+npm start
 ```
