@@ -13,6 +13,8 @@ const refLampu = db.ref("/Humidity_lampu_isOn");
 const refFan = db.ref("/Temperatur_fan_isOn");
 
 const topic = 'myTopic';
+const imageFan = 'https://raw.githubusercontent.com/Dicky019/kontroller-server/master/assets/fan.png'
+const imageLamp = 'https://raw.githubusercontent.com/Dicky019/kontroller-server/master/assets/lamp.png'
 
 const message = {
     notification: {
@@ -24,9 +26,10 @@ const message = {
         color: '#6563a4',
     },
     android: {
-        priority:"high",
+        priority: "high",
         notification: {
-            imageUrl: "https://assets1.lottiefiles.com/packages/lf20_UdIDHC.json"      }
+            imageUrl: '',
+        }
     },
     topic: topic
 };
@@ -35,6 +38,7 @@ refLampu.on("value", (snapsot) => {
     const data = snapsot.val();
     if (data) {
         message.notification.body = "Lampu Anda Menyala"
+        message.android.notification.imageUrl = imageLamp
         sendMessaging(message);
     }
 })
@@ -42,6 +46,7 @@ refFan.on("value", (snapsot) => {
     const data = snapsot.val();
     if (data) {
         message.notification.body = "Kipas Anda Menyala"
+        message.android.notification.imageUrl = imageFan
         sendMessaging(message);
     }
 })
