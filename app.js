@@ -7,6 +7,8 @@ admin.initializeApp({
     databaseURL: "https://skripsi-6f26d-default-rtdb.asia-southeast1.firebasedatabase.app"
 });
 
+const firestore = admin.firestore()
+
 const db = admin.database();
 
 const refLampu = db.ref("/Humidity_lampu_isOn");
@@ -31,22 +33,35 @@ const message = {
     topic: topic
 };
 
-refLampu.on("value", (snapsot) => {
-    const data = snapsot.val();
-    if (data) {
-        message.notification.body = "Lampu Anda Menyala"
-        message.android.notification.imageUrl = imageLamp
-        sendMessaging(message);
-    }
-})
-refFan.on("value", (snapsot) => {
-    const data = snapsot.val();
-    if (data) {
-        message.notification.body = "Kipas Anda Menyala"
-        message.android.notification.imageUrl = imageFan
-        sendMessaging(message);
-    }
-})
+firestore.collection("mac").onSnapshot(docSnapshot => {
+    docSnapshot.docs.forEach((element)=>{
+        const isLogin = element.data().isLogin;
+        const nama = element.data().nama;
+        console.log(isLogin);
+        if (isLogin) {
+            message.topic = nama
+            console.log(nama);
+            refLampu.on("value", (snapsot) => {
+                const data = snapsot.val();
+                if (data) {
+                    message.notification.body = "Lampu Anda Menyala"
+                    message.android.notification.imageUrl = imageLamp
+                    sendMessaging(message);
+                }
+            })
+            refFan.on("value", (snapsot) => {
+                const data = snapsot.val();
+                if (data) {
+                    message.notification.body = "Kipas Anda Menyala"
+                    message.android.notification.imageUrl = imageFan
+                    sendMessaging(message);
+                }
+            })
+        }
+    })
+  }, err => {
+    console.log(`Encountered error: ${err}`);
+  });
 
 
 function sendMessaging(message) {
