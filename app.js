@@ -11,6 +11,8 @@ const firestore = admin.firestore()
 
 const db = admin.database();
 
+// mudu
+
 const refLampu = db.ref("/Humidity_lampu_isOn");
 const refFan = db.ref("/Temperatur_fan_isOn");
 
