@@ -22,9 +22,6 @@ const message = {
         body: '',
         // sound : "default"
     },
-    data: {
-        color: '#6563a4',
-    },
     android: {
         priority: "high",
         notification: {
@@ -60,5 +57,3 @@ function sendMessaging(message) {
             console.log('Error sending message:', error);
         });
 }
-
-// The topic name can be optionally prefixed with "/topics/".
