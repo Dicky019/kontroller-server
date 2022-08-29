@@ -39,8 +39,8 @@ firestore.collection("mac").onSnapshot(docSnapshot => {
     docSnapshot.docs.forEach((element)=>{
         const isLogin = element.data().isLogin;
         const nama = element.data().nama;
-        console.log(isLogin);
-        if (isLogin) {
+        // console.log(isLogin);
+        if (isLogin && nama != "admin") {
             message.topic = nama
             console.log(nama);
             refLampu.on("value", (snapsot) => {
